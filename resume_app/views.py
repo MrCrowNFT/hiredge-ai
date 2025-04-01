@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.core.files.storage import FileSystemStorage
+from .file_utils import extract_text
 
 def upload_resume(request):
     if request.method == POST:
@@ -8,7 +9,7 @@ def upload_resume(request):
         filename = fs.save(uploaded_file.name, uploaded_file)#Saves the uploaded file in the media storage directory
         file_path = fs.path(filename)#get absolute path
 
-        extracted_text = 
+        extracted_text = extract_text(file_path)
         return render(request, "resume_preview.html", {"resume_text": extracted_text})
     #if no file has been uploaded, render upload form
     return render(request, "upload.html")
