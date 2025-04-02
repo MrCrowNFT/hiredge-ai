@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.core.files.storage import FileSystemStorage
 from .file_utils import extract_text
+from .ai_utils import improve_resume
 
 
 def upload_resume(request):
@@ -29,7 +30,11 @@ def upload_resume(request):
     # If no file has been uploaded or method is GET, render upload form
     return render(request, "upload.html")
 
-#this one will be called when the user submits, 
-#can not submit if the user hasn't upload resume
+
 def enhance_resume(request):
-    return 
+    if request.method == "POST":
+        resume_text = request.POST["resume_text"]
+        job_desc = request.POST.get("job_desc", "")
+
+        improved_resume = improve_resume(resume_text, job_desc)
+        return render(request, "resume_preview.html", {"resume_text": improved_resume})
