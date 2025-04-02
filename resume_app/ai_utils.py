@@ -1,28 +1,21 @@
-import openai
+from openai import OpenAI
 
-openai.api_key =""#add api key
+client = OpenAI(api_key="")  # Add API key
 
-"""Here we use LLM to enhance a resume, optionally with a job description for tailored resumes"""
-def improve_resume(resume_text, job_desc):
-    prompt= f"""
-    Improve this resume to make it more appealing to recruters
+"""Enhance a resume using LLM, optionally tailoring it to a job description."""
+def improve_resume(resume_text, job_desc=""):
+    messages = [
+        {"role": "system", "content": "You are a professional recruiter and HR manager. Improve resumes to make them more appealing to recruiters."},
+        {"role": "user", "content": f"Improve this resume:\n\n{resume_text}"},
+    ]
+    
+    if job_desc:
+        messages.append({"role": "user", "content": f"Tailor it for this job description:\n\n{job_desc}"})
 
-    Resume: 
-    {resume_text}
-
-    Job Description: 
-    Tailor the resume for this job description
-    {job_desc}
-
-    Return only the improved resume.
-    """
-    response = openai.ChatCompletion.create(
-        model="",
-        messages=[{"role": "system", "content": prompt}],
-        temperature=0.7,
-        max_tokens=1000
+    response = client.chat.completions.create(
+        model="",  
+        messages=messages,
+        max_tokens=1000,
     )
-    
-    return response["choices"][0]["message"]["content"]
 
-    
+    return response.choices[0].message.content 
