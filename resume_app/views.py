@@ -1,15 +1,17 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.core.files.storage import FileSystemStorage
 from django.http import FileResponse
-from .file_utils import extract_text, create_document
-from .ai_utils import improve_resume
+from django.contrib import messages
+from django.conf import settings
 import mimetypes
 import os
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib import messages
-
+import uuid
+import time
+from .file_utils import extract_text, create_document
+from .ai_utils import improve_resume
 
 def upload_resume(request):
+    """Handle resume file upload and text extraction."""
     if request.method == "POST":
         if "resume" not in request.FILES:
             return render(request, "upload.html", {"error": "No file was uploaded"})
@@ -23,18 +25,29 @@ def upload_resume(request):
         if file_mime_type not in valid_mime_types:
             return render(request, "upload.html", {"error": "Only PDF and DOCX files are supported"})
 
+        # Validate file size (5MB limit)
+        if uploaded_file.size > 5 * 1024 * 1024:
+            return render(request, "upload.html", {"error": "File size exceeds 5MB limit"})
+
+        # Save file with a unique name to prevent overwriting
         fs = FileSystemStorage()
-        filename = fs.save(uploaded_file.name, uploaded_file)
+        unique_filename = f"{uuid.uuid4()}_{uploaded_file.name}"
+        filename = fs.save(unique_filename, uploaded_file)
         file_path = fs.path(filename)
 
         try:
             extracted_text = extract_text(file_path)
+            if not extracted_text.strip():
+                fs.delete(filename)
+                return render(request, "upload.html", {"error": "Could not extract text from file. Please ensure the file contains text content."})
+            
             # Store the original file info in session
             request.session['original_file'] = {
                 'path': file_path,
                 'name': uploaded_file.name,
                 'mime_type': file_mime_type
             }
+            
             return render(request, "resume_preview.html", {"resume_text": extracted_text})
         except Exception as e:
             fs.delete(filename)  # Delete file if extraction fails
@@ -44,6 +57,7 @@ def upload_resume(request):
 
 
 def enhance_resume(request):
+    """Process resume text with AI and display improved version."""
     if request.method == "POST":
         resume_text = request.POST.get("resume_text", "").strip()
         job_desc = request.POST.get("job_desc", "").strip()
@@ -52,49 +66,76 @@ def enhance_resume(request):
             return render(request, "resume_preview.html", {"error": "Resume text is required"})
 
         try:
+            # Process with AI
+            start_time = time.time()
             improved_resume = improve_resume(resume_text, job_desc)
+            processing_time = time.time() - start_time
+            
             # Store the improved text in session
             request.session['improved_resume'] = improved_resume
-            return render(request, "improved_resume.html", {
+            request.session['job_desc'] = job_desc
+            
+            # Add processing time for analytics
+            context = {
                 "resume_text": improved_resume,
                 "original_text": resume_text,
-                "job_desc": job_desc
-            })
+                "job_desc": job_desc,
+                "processing_time": round(processing_time, 2)
+            }
+            
+            return render(request, "improved_resume.html", context)
         except Exception as e:
+            error_msg = f"Error improving resume: {str(e)}"
+            if "api_key" in str(e).lower():
+                error_msg = "API configuration error. Please contact the administrator."
+                
             return render(request, "resume_preview.html", {
                 "resume_text": resume_text,
                 "job_desc": job_desc,
-                "error": f"Error improving resume: {str(e)}"
+                "error": error_msg
             })
 
-    return HttpResponse(status=405)
+    return redirect("upload_resume")
 
 
 def download_resume(request):
+    """Generate and serve downloadable resume file."""
     if request.method == "GET":
         improved_resume = request.session.get('improved_resume')
         original_file = request.session.get('original_file')
         
-        if not improved_resume or not original_file:
+        if not improved_resume:
             messages.error(request, "No improved resume available for download")
-            return render(request, "upload.html")
+            return redirect("upload_resume")
             
         try:
             # Create a new document with the improved text
-            output_format = request.GET.get('format', 'pdf')
+            output_format = request.GET.get('format', 'pdf').lower()
+            if output_format not in ['pdf', 'docx']:
+                output_format = 'pdf'  # Default to PDF if invalid format
+                
             file_path = create_document(improved_resume, output_format)
             
             # Prepare file for download
             with open(file_path, 'rb') as file:
-                response = FileResponse(
-                    file,
-                    content_type='application/pdf' if output_format == 'pdf' else 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                )
-                response['Content-Disposition'] = f'attachment; filename="improved_{os.path.basename(original_file["name"])}"'
+                content_type = 'application/pdf' if output_format == 'pdf' else 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                response = FileResponse(file, content_type=content_type)
+                
+                # Generate a filename
+                if original_file and 'name' in original_file:
+                    original_name = os.path.splitext(original_file['name'])[0]
+                    filename = f"improved_{original_name}.{output_format}"
+                else:
+                    filename = f"improved_resume.{output_format}"
+                    
+                response['Content-Disposition'] = f'attachment; filename="{filename}"'
                 return response
                 
         except Exception as e:
             messages.error(request, f"Error creating document: {str(e)}")
-            return render(request, "improved_resume.html", {"resume_text": improved_resume, "error": str(e)})
+            return render(request, "improved_resume.html", {
+                "resume_text": improved_resume, 
+                "error": f"Download failed: {str(e)}"
+            })
             
-    return HttpResponse(status=405)
+    return redirect("upload_resume")
