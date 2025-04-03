@@ -2,5 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns =[
-    path("", views.home, name="home")#on the route of webpage, connect to view.home , make sure is home fn
+    path('', views.upload_resume, name='upload_resume'),
+    path('enhance/', views.enhance_resume, name='enhance_resume'),
+    path('download/', views.download_resume, name='download_resume'),
 ]
