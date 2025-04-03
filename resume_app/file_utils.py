@@ -1,5 +1,11 @@
 import PyPDF2
 import docx
+from docx.shared import Pt
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from io import BytesIO
+import os
+import uuid
 
 def extract_text(file_path):
     """Extract text from PDF or DOCX file."""
@@ -18,3 +24,4 @@ def extract_pdf_text(file_path):
 def extract_docx_text(file_path):
     doc = docx.Document(file_path)
     return "\n".join([para.text for para in doc.paragraphs])
+
