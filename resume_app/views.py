@@ -12,7 +12,7 @@ from .ai_utils import improve_resume
 from .rate_limiting import rate_limit
 import logging
 from django.http import JsonResponse
-from openai.error import RateLimitError, AuthenticationError, APIError, APIConnectionError
+from openai import RateLimitError, AuthenticationError, APIError, APIConnectionError
 
 logger = logging.getLogger(__name__)
 
