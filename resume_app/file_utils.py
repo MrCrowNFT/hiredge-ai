@@ -6,14 +6,24 @@ from reportlab.lib.pagesizes import letter
 from io import BytesIO
 import os
 import uuid
+import logging
 
+logger = logging.getLogger(__name__)
+
+#todo add more logging to functions
 def extract_text(file_path):
     """Extract text from PDF or DOCX file."""
-    if file_path.endswith(".pdf"):
-        return extract_pdf_text(file_path)
-    elif file_path.endswith(".docx"):
-        return extract_docx_text(file_path)
-    return ""
+    logger.info(f"Extracting text from {file_path}")
+    try:
+        if file_path.endswith(".pdf"):
+            return extract_pdf_text(file_path)
+        elif file_path.endswith(".docx"):
+            return extract_docx_text(file_path)
+        logger.warning(f"Unsupported file format for {file_path}")
+        return ""
+    except Exception as e:
+        logger.exception(f"Error extracting text from {file_path}: {str(e)}")
+        raise
 
 def extract_pdf_text(file_path):
     with open(file_path, "rb") as file:
