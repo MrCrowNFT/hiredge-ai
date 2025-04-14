@@ -141,3 +141,9 @@ os.makedirs(os.path.join(MEDIA_ROOT, 'improved_resumes'), exist_ok=True)
 
 # Add timeout settings for resume processing
 RESUME_PROCESSING_TIMEOUT = 60  # seconds
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    },
+}
