@@ -18,9 +18,11 @@ logger = logging.getLogger(__name__)
 
 @rate_limit('upload', limit=10, period=3600)  # 10 uploads per hour
 def upload_resume(request):
-    """Handle resume file upload and text extraction."""
     if request.method == "POST":
+        print("POST request received")
+        print("FILES:", request.FILES)
         if "resume" not in request.FILES:
+            print("'resume' not found in request.FILES")
             return render(request, "upload.html", {"error": "No file was uploaded"})
 
         uploaded_file = request.FILES["resume"]
