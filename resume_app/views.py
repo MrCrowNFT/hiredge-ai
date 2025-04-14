@@ -9,8 +9,9 @@ import uuid
 import time
 from .file_utils import extract_text, create_document
 from .ai_utils import improve_resume
+from .rate_limiting import rate_limit
 
-
+@rate_limit('upload', limit=10, period=3600)  # 10 uploads per hour
 def upload_resume(request):
     """Handle resume file upload and text extraction."""
     if request.method == "POST":
@@ -67,6 +68,7 @@ def upload_resume(request):
     return render(request, "upload.html")
 
 
+@rate_limit('enhance', limit=5, period=3600)  # 5 enhancements per hour
 def enhance_resume(request):
     """Process resume text with AI and display improved version."""
     if request.method == "POST":
