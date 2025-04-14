@@ -10,6 +10,11 @@ import time
 from .file_utils import extract_text, create_document
 from .ai_utils import improve_resume
 from .rate_limiting import rate_limit
+import logging
+from django.http import JsonResponse
+from openai.error import RateLimitError, AuthenticationError, APIError, APIConnectionError
+
+logger = logging.getLogger(__name__)
 
 @rate_limit('upload', limit=10, period=3600)  # 10 uploads per hour
 def upload_resume(request):
@@ -75,29 +80,9 @@ def enhance_resume(request):
         resume_text = request.POST.get("resume_text", "").strip()
         job_desc = request.POST.get("job_desc", "").strip()
 
-        # Enhanced text validation
         if not resume_text:
             return render(request, "resume_preview.html", {"error": "Resume text is required"})
-            
-        # Validate text length
-        if len(resume_text) < 100:
-            return render(request, "resume_preview.html", 
-                {"error": "Resume text is too short. Please provide a complete resume.", 
-                 "resume_text": resume_text, 
-                 "job_desc": job_desc})
-                 
-        if len(resume_text) > 10000:  # Set reasonable maximum
-            return render(request, "resume_preview.html", 
-                {"error": "Resume text exceeds maximum length (10,000 characters).", 
-                 "resume_text": resume_text[:10000], 
-                 "job_desc": job_desc})
-                 
-        # Job description validation (optional field)
-        if job_desc and len(job_desc) > 5000:
-            return render(request, "resume_preview.html", 
-                {"error": "Job description exceeds maximum length (5,000 characters).", 
-                 "resume_text": resume_text, 
-                 "job_desc": job_desc[:5000]})
+
         try:
             # Process with AI
             start_time = time.time()
@@ -117,16 +102,33 @@ def enhance_resume(request):
             }
             
             return render(request, "improved_resume.html", context)
+            
+        except RateLimitError:
+            logger.warning("OpenAI rate limit reached")
+            error_msg = "Our AI service is experiencing high demand. Please try again in a few minutes."
+            
+        except AuthenticationError:
+            logger.error("OpenAI authentication failed")
+            error_msg = "AI service authentication error. Please contact the administrator."
+            
+        except APIConnectionError:
+            logger.error("OpenAI connection error")
+            error_msg = "Unable to connect to AI service. Please check your internet connection and try again."
+            
+        except APIError:
+            logger.error("OpenAI API error")
+            error_msg = "The AI service encountered an error. Please try again later."
+            
         except Exception as e:
-            error_msg = f"Error improving resume: {str(e)}"
-            if "api_key" in str(e).lower():
-                error_msg = "API configuration error. Please contact the administrator."
-                
-            return render(request, "resume_preview.html", {
-                "resume_text": resume_text,
-                "job_desc": job_desc,
-                "error": error_msg
-            })
+            logger.exception(f"Unexpected error in enhance_resume: {str(e)}")
+            error_msg = "An unexpected error occurred. Please try again or contact support."
+            
+        # Return error context
+        return render(request, "resume_preview.html", {
+            "resume_text": resume_text,
+            "job_desc": job_desc,
+            "error": error_msg
+        })
 
     return redirect("upload_resume")
 

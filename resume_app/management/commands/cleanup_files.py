@@ -4,6 +4,7 @@ import os
 import time
 import logging
 
+#todo: add crontab or other scheduling to run this automatically
 logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
