@@ -13,7 +13,7 @@ def rate_limit(key_prefix, limit=5, period=3600):
     def decorator(view_func):
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
-            # Get client IP - consider using a middleware for more reliable IP detection
+            # Get client IP
             ip = request.META.get('REMOTE_ADDR', '')
             
             # Create a unique key for this IP and endpoint

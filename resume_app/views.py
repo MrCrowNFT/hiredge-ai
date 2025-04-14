@@ -25,7 +25,6 @@ def upload_resume(request):
 
         uploaded_file = request.FILES["resume"]
         
-        # Enhanced file validation
         # Check file extension explicitly
         file_ext = os.path.splitext(uploaded_file.name)[1].lower()
         if file_ext not in ['.pdf', '.docx']:
@@ -38,12 +37,12 @@ def upload_resume(request):
         if file_mime_type not in valid_mime_types:
             return render(request, "upload.html", {"error": "Invalid file format detected"})
 
-        # Enhanced size validation with clear message
+        # size validation 
         max_size_mb = 5
         if uploaded_file.size > max_size_mb * 1024 * 1024:
             return render(request, "upload.html", {"error": f"File size exceeds {max_size_mb}MB limit"})
             
-        # Add validation for file content (prevent empty files)
+        # validation for file content->prevent empty files
         if uploaded_file.size == 0:
             return render(request, "upload.html", {"error": "Empty files are not allowed"})
         # Save file with a unique name to prevent overwriting

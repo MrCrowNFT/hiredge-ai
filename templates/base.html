@@ -4,7 +4,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CSRF meta tag for JavaScript protection -->
+    <meta name="csrf-token" content="{{ csrf_token }}" />
     <title>{% block title %}HirEdge Ai - Improve Your CV{% endblock %}</title>
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'favicon-32x32.png' %}"
+    />
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{% static 'apple-touch-icon.png' %}"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
@@ -35,6 +50,19 @@
       </div>
     </footer>
 
+    <!-- CSRF JavaScript for fetch API requests -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // utility function for fetch with CSRF token
+        window.fetchWithCSRF = function (url, options = {}) {
+          options.headers = options.headers || {};
+          options.headers["X-CSRFToken"] = document
+            .querySelector('meta[name="csrf-token"]')
+            .getAttribute("content");
+          return fetch(url, options);
+        };
+      });
+    </script>
     {% block scripts %}{% endblock %}
   </body>
 </html>
