@@ -153,19 +153,22 @@ def download_resume(request):
             file_path = create_document(improved_resume, output_format)
             
             # Prepare file for download
-            with open(file_path, 'rb') as file:
-                content_type = 'application/pdf' if output_format == 'pdf' else 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                response = FileResponse(file, content_type=content_type)
+            file = open(file_path, 'rb')
+            content_type = 'application/pdf' if output_format == 'pdf' else 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            
+            # Generate a filename
+            if original_file and 'name' in original_file:
+                original_name = os.path.splitext(original_file['name'])[0]
+                filename = f"improved_{original_name}.{output_format}"
+            else:
+                filename = f"improved_resume.{output_format}"
                 
-                # Generate a filename
-                if original_file and 'name' in original_file:
-                    original_name = os.path.splitext(original_file['name'])[0]
-                    filename = f"improved_{original_name}.{output_format}"
-                else:
-                    filename = f"improved_resume.{output_format}"
-                    
-                response['Content-Disposition'] = f'attachment; filename="{filename}"'
-                return response
+            # Create response with the open file
+            response = FileResponse(file, content_type=content_type)
+            response['Content-Disposition'] = f'attachment; filename="{filename}"'
+            
+            # Don't close the file - Django's FileResponse will manage it
+            return response
                 
         except Exception as e:
             messages.error(request, f"Error creating document: {str(e)}")

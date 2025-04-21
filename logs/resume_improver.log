@@ -68,3 +68,12 @@ ERROR 2025-04-14 21:28:30,027 basehttp "POST / HTTP/1.1" 500 144682
 INFO 2025-04-14 22:38:02,327 autoreload Watching for file changes with StatReloader
 INFO 2025-04-14 22:38:07,576 basehttp "GET / HTTP/1.1" 200 5607
 INFO 2025-04-14 22:38:14,321 basehttp "POST / HTTP/1.1" 200 5933
+INFO 2025-04-21 21:21:55,745 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 21:22:04,989 basehttp "GET / HTTP/1.1" 200 5607
+WARNING 2025-04-21 21:22:06,212 log Not Found: /favicon.ico
+WARNING 2025-04-21 21:22:06,213 basehttp "GET /favicon.ico HTTP/1.1" 404 3165
+INFO 2025-04-21 21:22:22,973 basehttp "POST / HTTP/1.1" 200 5933
+INFO 2025-04-21 21:22:35,184 basehttp "POST /enhance/ HTTP/1.1" 200 13338
+ERROR 2025-04-21 21:22:48,367 basehttp "GET /download/?format=docx HTTP/1.1" 500 59
+ERROR 2025-04-21 21:23:57,666 basehttp "GET /download/?format=docx HTTP/1.1" 500 59
+ERROR 2025-04-21 21:24:01,271 basehttp "GET /download/?format=pdf HTTP/1.1" 500 59
