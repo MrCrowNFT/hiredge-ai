@@ -82,3 +82,9 @@ INFO 2025-04-21 22:46:00,171 basehttp "GET / HTTP/1.1" 200 5607
 INFO 2025-04-21 22:46:07,132 basehttp "POST / HTTP/1.1" 200 5933
 INFO 2025-04-21 22:46:15,294 basehttp "POST /enhance/ HTTP/1.1" 200 13104
 INFO 2025-04-21 22:46:17,911 basehttp "GET /download/?format=docx HTTP/1.1" 200 37748
+INFO 2025-04-21 23:02:37,798 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 23:02:40,964 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-21 23:04:24,775 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 23:04:27,119 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-21 23:07:11,159 basehttp "POST / HTTP/1.1" 200 6013
+INFO 2025-04-21 23:07:23,650 basehttp "GET / HTTP/1.1" 200 5607
