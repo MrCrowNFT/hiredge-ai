@@ -77,3 +77,8 @@ INFO 2025-04-21 21:22:35,184 basehttp "POST /enhance/ HTTP/1.1" 200 13338
 ERROR 2025-04-21 21:22:48,367 basehttp "GET /download/?format=docx HTTP/1.1" 500 59
 ERROR 2025-04-21 21:23:57,666 basehttp "GET /download/?format=docx HTTP/1.1" 500 59
 ERROR 2025-04-21 21:24:01,271 basehttp "GET /download/?format=pdf HTTP/1.1" 500 59
+INFO 2025-04-21 22:45:56,505 autoreload Watching for file changes with StatReloader
+INFO 2025-04-21 22:46:00,171 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-21 22:46:07,132 basehttp "POST / HTTP/1.1" 200 5933
+INFO 2025-04-21 22:46:15,294 basehttp "POST /enhance/ HTTP/1.1" 200 13104
+INFO 2025-04-21 22:46:17,911 basehttp "GET /download/?format=docx HTTP/1.1" 200 37748
