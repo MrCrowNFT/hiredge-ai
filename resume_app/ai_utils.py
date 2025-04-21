@@ -5,7 +5,7 @@ from django.conf import settings
 
 # Get API key from environment 
 api_key = os.environ.get("OPENAI_API_KEY", "")
-model_name = os.environ.get("OPENAI_MODEL", "gpt-4o")
+model_name = os.environ.get("OPENAI_MODEL", "gpt-3.5-turbo")
 
 client = OpenAI(api_key=api_key)
 
