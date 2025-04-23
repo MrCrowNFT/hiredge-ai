@@ -19,7 +19,7 @@ pip install -r requirements.txt
 
 ```
 
-To run the app, enter the following command on the terminal
+**Run the app**
 
 ```sh
 python3 manage.py runserver

@@ -1,5 +1,5 @@
-.env
 __pycache__/
-/media/
 *.log
-.DS_Store
+media/
+db.sqlite3
+.env
