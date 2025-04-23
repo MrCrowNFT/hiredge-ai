@@ -88,3 +88,38 @@ INFO 2025-04-21 23:04:24,775 autoreload Watching for file changes with StatReloa
 INFO 2025-04-21 23:04:27,119 basehttp "GET / HTTP/1.1" 200 5607
 INFO 2025-04-21 23:07:11,159 basehttp "POST / HTTP/1.1" 200 6013
 INFO 2025-04-21 23:07:23,650 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:14:17,825 autoreload Watching for file changes with StatReloader
+INFO 2025-04-23 20:14:21,599 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:24:21,283 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:25:15,816 autoreload Watching for file changes with StatReloader
+INFO 2025-04-23 20:25:18,111 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:25:38,106 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:27:16,024 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:27:29,563 autoreload /home/lucian/Software_dev/Projects/hiredge-ai/hiredgeAi/settings.py changed, reloading.
+INFO 2025-04-23 20:27:30,054 autoreload Watching for file changes with StatReloader
+INFO 2025-04-23 20:27:48,550 autoreload /home/lucian/Software_dev/Projects/hiredge-ai/hiredgeAi/settings.py changed, reloading.
+INFO 2025-04-23 20:27:48,995 autoreload Watching for file changes with StatReloader
+INFO 2025-04-23 20:29:58,548 autoreload Watching for file changes with StatReloader
+INFO 2025-04-23 20:30:02,258 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:30:16,464 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:31:12,982 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:31:23,860 basehttp "GET /static/favicon.svg HTTP/1.1" 200 5593
+INFO 2025-04-23 20:31:59,486 basehttp "GET / HTTP/1.1" 200 5607
+WARNING 2025-04-23 20:32:00,564 log Not Found: /favicon.ico
+WARNING 2025-04-23 20:32:00,565 basehttp "GET /favicon.ico HTTP/1.1" 404 3165
+INFO 2025-04-23 20:32:49,117 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:33:46,452 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:33:56,848 basehttp "GET /static/favicon.svg HTTP/1.1" 304 0
+WARNING 2025-04-23 20:36:30,927 basehttp "GET /static/favicon.svg HTTP/1.1" 404 1847
+INFO 2025-04-23 20:36:33,630 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:36:57,786 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:37:07,699 autoreload Watching for file changes with StatReloader
+INFO 2025-04-23 20:37:13,460 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:37:19,101 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:38:37,506 basehttp "GET /static/favicon.ico HTTP/1.1" 200 4878
+INFO 2025-04-23 20:38:42,239 basehttp "GET /static/favicon.svg HTTP/1.1" 200 5593
+INFO 2025-04-23 20:41:03,042 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:41:08,873 autoreload Watching for file changes with StatReloader
+INFO 2025-04-23 20:41:10,990 basehttp "GET / HTTP/1.1" 200 5607
+INFO 2025-04-23 20:41:59,165 autoreload Watching for file changes with StatReloader
+INFO 2025-04-23 20:42:01,575 basehttp "GET / HTTP/1.1" 200 5607
