@@ -51,11 +51,13 @@ python3 manage.py migrate
 python3 manage.py runserver
 ```
 
-6. **Visit the app:**
+## Clean up
 
-Open your browser and go to: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+**Management command for cleaning up old temporary files**
 
----
+```sh
+python3 manage.py cleanup_files --days=1
+```
 
 ## Tech Stack
 

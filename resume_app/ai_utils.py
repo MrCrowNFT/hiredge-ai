@@ -48,7 +48,7 @@ def improve_resume(resume_text, job_desc=""):
         response = client.chat.completions.create(
             model=model_name,
             messages=messages,
-            temperature=0.5,  # Lower temperature for more consistent responses
+            temperature=0.5,  
             max_tokens=4000,
         )
         
