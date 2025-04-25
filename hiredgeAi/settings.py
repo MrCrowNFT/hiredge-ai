@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-hrm$fc8@r&f1xj#k2*39x&qmn%bq7f!a1t*+4$3o#s8s_mqf^v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['hiredge-ai.onrender.com']
 
 
 # Application definition
