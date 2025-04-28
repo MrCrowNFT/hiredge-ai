@@ -4,11 +4,11 @@
   <img src="/static/favicon.svg" alt="Hiredge Logo" width="100" />
 </p>
 
-#### Video Demo: [Watch here](<URL HERE>)
+### Video Demo: [Watch here](<https://youtu.be/oM4ka7EPDGo>)
 
 ---
 
-## Description
+### Description
 
 **Hiredge AI** is an AI-powered resume analysis tool built with Django and Python. It uses the OpenAI API to analyze uploaded resumes and provide actionable, personalized feedback to improve them. The goal is to assist job seekers in refining their resumes for better job search outcomes.
 
@@ -18,7 +18,7 @@ Hiredge AI was planned from the beginning to be both useful and easy to use—pr
 
 ---
 
-## Quick Start
+### Quick Start
 
 1. **Clone the repository:**
 
@@ -51,7 +51,7 @@ python3 manage.py migrate
 python3 manage.py runserver
 ```
 
-## Clean up
+### Clean up
 
 **Management command for cleaning up old temporary files**
 
@@ -59,7 +59,7 @@ python3 manage.py runserver
 python3 manage.py cleanup_files --days=1
 ```
 
-## Tech Stack
+### Tech Stack
 
 - Python 3
 - Django
@@ -70,15 +70,9 @@ python3 manage.py cleanup_files --days=1
 
 ---
 
-## .gitignore Note
 
-Make sure your `.gitignore` file excludes:
+### Live Project
 
-```txt
-__pycache__/
-*.log
-media/
-db.sqlite3
-.env
-venv/
-```
+- [Hiredge Ai (Render)](https://hiredge-ai.onrender.com/)
+
+> Note: The project is hosted on Render free tier. It may take a few seconds to wake up when idle.
