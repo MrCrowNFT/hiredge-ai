@@ -4,7 +4,6 @@
   <img src="/static/favicon.svg" alt="Hiredge Logo" width="100" />
 </p>
 
-### Video Demo: [Watch here](<https://youtu.be/oM4ka7EPDGo>)
 
 ---
 
